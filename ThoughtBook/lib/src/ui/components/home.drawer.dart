@@ -1,3 +1,5 @@
+import 'package:ThoughtBook/src/ui/page/page.aboutme.dart';
+import 'package:ThoughtBook/src/ui/page/page.history.dart';
 import 'package:flutter/material.dart';
 
 class HomeDrawer extends StatelessWidget {
@@ -24,17 +26,15 @@ class HomeDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.home),
-            title: Text("Home"),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
             leading: Icon(Icons.history),
             title: Text("History"),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PageHistory(),
+                ),
+              );
             },
           ),
           ListTile(
@@ -49,7 +49,8 @@ class HomeDrawer extends StatelessWidget {
             leading: Icon(Icons.info),
             title: Text("About Me"),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PageAboutMe()));
             },
           ),
         ],

@@ -1,6 +1,8 @@
 import 'package:ThoughtBook/src/ui/components/home.drawer.dart';
 import 'package:ThoughtBook/src/ui/components/home.entryCard.dart';
 import 'package:ThoughtBook/src/ui/components/home.publish.dart';
+import 'package:ThoughtBook/src/ui/page/page.history.dart';
+import 'package:ThoughtBook/src/ui/page/page.settings.dart';
 import 'package:flutter/material.dart';
 
 class PageLogin extends StatelessWidget {
@@ -36,12 +38,19 @@ class PageLogin extends StatelessWidget {
                 ),
               )),
           Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: Icon(
-              Icons.settings,
-              color: Colors.white,
-            ),
-          )
+              padding: EdgeInsets.only(right: 10),
+              child: IconButton(
+                icon: Icon(
+                  Icons.settings,
+                  color: Colors.white,
+                ),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PageSettings(),
+                  ),
+                ),
+              ))
         ],
       ),
       body: Container(
