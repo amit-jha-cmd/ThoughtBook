@@ -1,13 +1,20 @@
 import 'package:ThoughtBook/src/ui/components/home.drawer.dart';
 import 'package:ThoughtBook/src/ui/components/home.entryCard.dart';
+import 'package:ThoughtBook/src/ui/components/home.goProModal.dart';
 import 'package:ThoughtBook/src/ui/components/home.publish.dart';
 import 'package:ThoughtBook/src/ui/page/page.history.dart';
 import 'package:ThoughtBook/src/ui/page/page.settings.dart';
 import 'package:flutter/material.dart';
 
-class PageLogin extends StatelessWidget {
+class PageHome extends StatefulWidget {
+  @override
+  _PageHomeState createState() => _PageHomeState();
+}
+
+class _PageHomeState extends State<PageHome> {
   double width;
   double height;
+  bool goProPanel = false;
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -30,7 +37,13 @@ class PageLogin extends StatelessWidget {
                     color: Colors.amber,
                     borderRadius: BorderRadius.all(Radius.circular(5))),
                 child: FlatButton(
-                  onPressed: null,
+                  onPressed: () {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return HomeGoProModal();
+                        });
+                  },
                   child: Text(
                     "Go Pro",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -90,7 +103,7 @@ class PageLogin extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Publish()
+            Publish(),
           ],
         ),
       ),

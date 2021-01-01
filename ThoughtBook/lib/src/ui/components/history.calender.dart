@@ -56,7 +56,7 @@ class _HistoryCalenderState extends State<HistoryCalender> {
       weekFormat: false,
 //      firstDayOfWeek: 4,
       markedDatesMap: _markedDateMap,
-      height: 350.0,
+      height: 300.0,
       selectedDateTime: _currentDate2,
       targetDateTime: _targetDateTime,
       customGridViewPhysics: NeverScrollableScrollPhysics(),

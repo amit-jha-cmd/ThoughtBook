@@ -29,11 +29,25 @@ class PageHistory extends StatelessWidget {
         height: this.height,
         child: Column(
           children: [
-            HistoryCalender(),
-            Divider(),
             Expanded(
               child: ListView(
                 children: [
+                  HistoryCalender(),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Center(
+                    child: Text(
+                      "Select a date and click view to load the entires",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                  Center(
+                    child: RaisedButton(
+                      onPressed: () => print("Load enteries"),
+                      child: Text("View"),
+                    ),
+                  ),
                   EntryCard(),
                   EntryCard(),
                   EntryCard(),

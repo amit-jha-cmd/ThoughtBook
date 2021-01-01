@@ -26,7 +26,15 @@ class PageAboutMe extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [],
+          children: [
+            Icon(
+              Icons.computer,
+              size: 70,
+            ),
+            Text("I'm a full-stack developer based in India"),
+            Text("I also work as a freelancer"),
+            Text("Contact: _email_")
+          ],
         ),
       ),
     );

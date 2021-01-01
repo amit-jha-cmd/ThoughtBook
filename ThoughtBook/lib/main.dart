@@ -1,4 +1,4 @@
-import 'package:ThoughtBook/src/ui/page/page.home.dart';
+import 'package:ThoughtBook/src/ui/page/page.login.dart';
 import 'package:flutter/material.dart';
 
 void main() {

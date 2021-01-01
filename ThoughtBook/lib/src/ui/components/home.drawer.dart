@@ -1,5 +1,6 @@
 import 'package:ThoughtBook/src/ui/page/page.aboutme.dart';
 import 'package:ThoughtBook/src/ui/page/page.history.dart';
+import 'package:ThoughtBook/src/ui/page/page.login.dart';
 import 'package:flutter/material.dart';
 
 class HomeDrawer extends StatelessWidget {
@@ -41,7 +42,12 @@ class HomeDrawer extends StatelessWidget {
             leading: Icon(Icons.logout),
             title: Text("Log Out"),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PageLogin(),
+                ),
+              );
             },
           ),
           Divider(),

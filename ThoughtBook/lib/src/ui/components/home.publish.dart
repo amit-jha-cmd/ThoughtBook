@@ -1,3 +1,4 @@
+import 'package:ThoughtBook/src/ui/components/home.smAd.dart';
 import 'package:flutter/material.dart';
 
 class Publish extends StatelessWidget {
@@ -11,8 +12,8 @@ class Publish extends StatelessWidget {
     }
 
     return Container(
-      padding: EdgeInsets.all(15),
-      height: 250,
+      padding: EdgeInsets.all(10),
+      height: 240,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -49,7 +50,7 @@ class Publish extends StatelessWidget {
               margin: EdgeInsets.all(12),
               // height: 5 * 24.0,
               child: TextField(
-                maxLines: 5,
+                maxLines: 3,
                 minLines: 1,
                 maxLength: 144,
                 controller: this.controller,
