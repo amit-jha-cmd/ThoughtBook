@@ -1,3 +1,4 @@
+import 'package:ThoughtBook/src/bloc/tweetPostBloc.dart';
 import 'package:ThoughtBook/src/ui/components/home.smAd.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ class Publish extends StatelessWidget {
   Widget build(BuildContext context) {
     void clearTextField() {
       FocusScope.of(context).requestFocus(new FocusNode());
+      bloc.PostTweet(controller.text);
       controller.clear();
     }
 

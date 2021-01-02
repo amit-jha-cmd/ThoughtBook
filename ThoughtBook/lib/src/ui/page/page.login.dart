@@ -1,8 +1,10 @@
+import 'package:ThoughtBook/src/model/session.dart';
 import 'package:ThoughtBook/src/ui/page/page.home.dart';
 import 'package:ThoughtBook/src/ui/page/page.intro.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_twitter/flutter_twitter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PageLogin extends StatefulWidget {
   @override
@@ -21,8 +23,27 @@ class _PageLoginState extends State<PageLogin> {
     switch (result.status) {
       case TwitterLoginStatus.loggedIn:
         var session = result.session;
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => PageHome(session)));
+        activeSession.setLogin = true;
+        activeSession.setKey = session.secret;
+        activeSession.setToken = session.token;
+        activeSession.setUsername = session.username;
+        _save(
+          true,
+          session.token,
+          session.secret,
+          session.username,
+          session.userId,
+        ).then((status) => {
+              if (status == true)
+                {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PageHome(session),
+                    ),
+                  )
+                }
+            });
         // _sendTokenAndSecretToServer(session.token, session.secret);
         break;
       case TwitterLoginStatus.cancelledByUser:
@@ -34,6 +55,24 @@ class _PageLoginState extends State<PageLogin> {
         print(result.errorMessage);
         break;
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _read().then((session) => {
+          if (session["loggedIn"])
+            {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PageHome(session),
+                ),
+              )
+            }
+        });
   }
 
   @override
@@ -92,5 +131,57 @@ class _PageLoginState extends State<PageLogin> {
         ),
       ),
     );
+  }
+
+  _read() async {
+    final prefs = await SharedPreferences.getInstance();
+    final loggedIn = 'loggedIn';
+    final token = 'token';
+    final key = 'key';
+    final username = 'username';
+    final userId = 'userId';
+
+    final loggedInValue = prefs.getBool(loggedIn) ?? false;
+    final tokenValue = prefs.getString(token) ?? "";
+    final keyValue = prefs.getString(key) ?? "";
+    final usernameValue = prefs.getString(username) ?? "";
+    final userIdValue = prefs.getString(userId) ?? "";
+
+    final session = {
+      loggedIn: loggedInValue,
+      token: tokenValue,
+      key: keyValue,
+      username: usernameValue,
+      userId: userIdValue
+    };
+
+    // print('read: $session');
+    return session;
+  }
+
+  _save(bool loggedInValue, String tokenValue, String keyValue,
+      String usernameValue, String userIdValue) async {
+    final prefs = await SharedPreferences.getInstance();
+    final loggedIn = 'loggedIn';
+    final token = 'token';
+    final key = 'key';
+    final username = 'username';
+    final userId = 'userId';
+
+    prefs.setBool(loggedIn, loggedInValue);
+    prefs.setString(token, tokenValue);
+    prefs.setString(key, keyValue);
+    prefs.setString(username, usernameValue);
+    prefs.setString(userId, userIdValue);
+
+    _read().then(
+      (session) => {
+        print(
+          session,
+        ),
+      },
+    );
+
+    return true;
   }
 }

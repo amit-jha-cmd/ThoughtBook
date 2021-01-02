@@ -5,6 +5,7 @@ import 'package:ThoughtBook/src/ui/components/home.publish.dart';
 import 'package:ThoughtBook/src/ui/page/page.history.dart';
 import 'package:ThoughtBook/src/ui/page/page.settings.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PageHome extends StatefulWidget {
   PageHome(this.session);
@@ -18,6 +19,7 @@ class _PageHomeState extends State<PageHome> {
   double width;
   double height;
   bool goProPanel = false;
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
