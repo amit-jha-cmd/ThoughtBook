@@ -26,6 +26,7 @@ dependencies:
   flutter_calendar_carousel: ^1.5.2
   eva_icons_flutter: ^2.0.1
   intro_slider: ^2.3.3
+  flutter_twitter: ^1.1.3
 
   share: any
 

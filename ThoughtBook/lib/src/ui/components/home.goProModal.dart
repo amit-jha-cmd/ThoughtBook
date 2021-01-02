@@ -4,7 +4,7 @@ class HomeGoProModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 350,
+      height: 430,
       color: Colors.white,
       padding: EdgeInsets.all(15),
       child: Column(
@@ -48,7 +48,27 @@ class HomeGoProModal extends StatelessWidget {
                 size: 40,
               ),
               title: Text(
-                "Easy Access To New Features",
+                "No Ads",
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 21,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(
+                Icons.check_circle,
+                color: Colors.green,
+                size: 40,
+              ),
+              title: Text(
+                "Access To Pro Features In The Future",
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 21,
