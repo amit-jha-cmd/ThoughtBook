@@ -7,6 +7,9 @@ import 'package:ThoughtBook/src/ui/page/page.settings.dart';
 import 'package:flutter/material.dart';
 
 class PageHome extends StatefulWidget {
+  PageHome(this.session);
+  final session;
+
   @override
   _PageHomeState createState() => _PageHomeState();
 }

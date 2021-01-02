@@ -21,7 +21,8 @@ class _PageLoginState extends State<PageLogin> {
     switch (result.status) {
       case TwitterLoginStatus.loggedIn:
         var session = result.session;
-        print(session.username.toString());
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => PageHome(session)));
         // _sendTokenAndSecretToServer(session.token, session.secret);
         break;
       case TwitterLoginStatus.cancelledByUser:
@@ -55,6 +56,7 @@ class _PageLoginState extends State<PageLogin> {
                 //     builder: (context) => PageHome(),
                 //   ),
                 // ),
+
                 onPressed: () => _singinTwitter(),
                 elevation: 2.0,
                 fillColor: Colors.white,
