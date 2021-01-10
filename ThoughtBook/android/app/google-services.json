@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "893573836107",
+    "project_id": "thoughtbook-25f44",
+    "storage_bucket": "thoughtbook-25f44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893573836107:android:0c39c8a5a05543cfb78cce",
+        "android_client_info": {
+          "package_name": "com.example.ThoughtBook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893573836107-jptvi5hba0jk5n8aivgveujf523g14ma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBa4Wx4EKJJv7o1t_hcBTxpDE5JkM607oI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893573836107-jptvi5hba0jk5n8aivgveujf523g14ma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

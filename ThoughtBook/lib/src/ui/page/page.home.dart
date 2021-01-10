@@ -2,15 +2,11 @@ import 'package:ThoughtBook/src/ui/components/home.drawer.dart';
 import 'package:ThoughtBook/src/ui/components/home.entryCard.dart';
 import 'package:ThoughtBook/src/ui/components/home.goProModal.dart';
 import 'package:ThoughtBook/src/ui/components/home.publish.dart';
-import 'package:ThoughtBook/src/ui/page/page.history.dart';
 import 'package:ThoughtBook/src/ui/page/page.settings.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PageHome extends StatefulWidget {
-  PageHome(this.session);
-  final session;
-
   @override
   _PageHomeState createState() => _PageHomeState();
 }
@@ -19,6 +15,7 @@ class _PageHomeState extends State<PageHome> {
   double width;
   double height;
   bool goProPanel = false;
+  CollectionReference metadata = Firestore.instance.collection("journal");
 
   @override
   Widget build(BuildContext context) {
@@ -95,16 +92,44 @@ class _PageHomeState extends State<PageHome> {
               ]),
             ),
             Expanded(
-                child: Container(
-              padding: EdgeInsets.all(15),
-              child: ListView(
-                scrollDirection: Axis.vertical,
-                children: [
-                  EntryCard(),
-                  EntryCard(),
-                ],
+              child: Container(
+                padding: EdgeInsets.all(15),
+                child: StreamBuilder(
+                  stream: metadata
+                      .where("username", isEqualTo: "amit_jha6700")
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text("Something went wrong"),
+                      );
+                    }
+
+                    return ListView(
+                      children: snapshot.data.documents.map((document) {
+                        for (dynamic entry in document.data['data']) {
+                          print(entry);
+                          DateTime stamp =
+                              (entry['timestamp'] as Timestamp).toDate();
+                          DateTime now = new DateTime.now();
+                          print(entry['entry']);
+                          if (stamp.day == now.day &&
+                              stamp.month == now.month &&
+                              stamp.year == now.year) {
+                            // print(entry['entry']);
+                            return EntryCard(stamp, entry['entry']);
+                          }
+                        }
+                        return Container();
+                      }).toList(),
+                    );
+                  },
+                ),
               ),
-            )),
+            ),
             SizedBox(
               height: 10,
             ),

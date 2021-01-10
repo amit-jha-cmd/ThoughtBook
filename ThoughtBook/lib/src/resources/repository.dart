@@ -5,6 +5,6 @@ import '../model/twitterPostModel.dart';
 class Repository {
   final tweetPostProviderApi = TweetPostProvider();
 
-  Future<TwitterPostModel> postTweet(String _tweet) =>
+  Future<Record> postTweet(String _tweet) =>
       tweetPostProviderApi.postTweet(_tweet);
 }

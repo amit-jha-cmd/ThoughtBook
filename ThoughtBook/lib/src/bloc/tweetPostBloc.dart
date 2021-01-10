@@ -4,12 +4,12 @@ import '../model/twitterPostModel.dart';
 
 class TweetPostBloc {
   final _repository = Repository();
-  final _tweetPoster = PublishSubject<TwitterPostModel>();
+  final _tweetPoster = PublishSubject<Record>();
 
-  Observable<TwitterPostModel> get postedTweet => _tweetPoster.stream;
+  Observable<Record> get postedTweet => _tweetPoster.stream;
 
   PostTweet(String _tweet) async {
-    TwitterPostModel PostModel = await _repository.postTweet(_tweet);
+    Record PostModel = await _repository.postTweet(_tweet);
     _tweetPoster.sink.add(PostModel);
   }
 

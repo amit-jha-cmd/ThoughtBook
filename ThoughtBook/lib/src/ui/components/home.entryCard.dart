@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
 class EntryCard extends StatelessWidget {
-  String shareText =
-      "Hey, I'm using Thought Book for my journal and here is an entry I want to share with you: ";
-  String shareSubject = "Journal entry";
+  EntryCard(this.date, this.entry);
+
+  DateTime date;
+  String entry;
 
   @override
   Widget build(BuildContext context) {
+    String shareText =
+        "Hey, I'm using Thought Book for my journal and here is an entry I want to share with you: $entry";
+    String shareSubject = "Journal entry";
     return Container(
       child: Card(
         child: Column(
@@ -16,16 +20,16 @@ class EntryCard extends StatelessWidget {
             new ListTile(
               contentPadding: EdgeInsets.all(10),
               title: Text(
-                '2:00 AM',
+                date.hour.toString().padLeft(2, '0') +
+                    ":" +
+                    date.minute.toString().padLeft(2, '0'),
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(
-                'There are a number of features that make RandomText a little different from other Lorem Ipsum dummy text generators you may find around the web',
-              ),
+              subtitle: Text(entry),
               onTap: () {
                 final RenderBox box = context.findRenderObject();
-                Share.share(this.shareText,
-                    subject: this.shareSubject,
+                Share.share(shareText,
+                    subject: shareSubject,
                     sharePositionOrigin:
                         box.localToGlobal(Offset.zero) & box.size);
               },

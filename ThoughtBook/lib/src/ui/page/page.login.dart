@@ -1,9 +1,9 @@
 import 'package:ThoughtBook/src/model/session.dart';
+import 'package:ThoughtBook/src/ui/components/firebase.auth.dart';
 import 'package:ThoughtBook/src/ui/page/page.home.dart';
 import 'package:ThoughtBook/src/ui/page/page.intro.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_twitter/flutter_twitter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PageLogin extends StatefulWidget {
@@ -12,69 +12,6 @@ class PageLogin extends StatefulWidget {
 }
 
 class _PageLoginState extends State<PageLogin> {
-  void _singinTwitter() async {
-    var twitterLogin = new TwitterLogin(
-      consumerKey: 'OixYnsjNPGZaFdQif141aBzxI',
-      consumerSecret: 'cZBlewtbukn9zjx2KppFuMnJT7ucM8F14ggZEWaNFCwkXj9z54',
-    );
-
-    final TwitterLoginResult result = await twitterLogin.authorize();
-
-    switch (result.status) {
-      case TwitterLoginStatus.loggedIn:
-        var session = result.session;
-        activeSession.setLogin = true;
-        activeSession.setKey = session.secret;
-        activeSession.setToken = session.token;
-        activeSession.setUsername = session.username;
-        _save(
-          true,
-          session.token,
-          session.secret,
-          session.username,
-          session.userId,
-        ).then((status) => {
-              if (status == true)
-                {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PageHome(session),
-                    ),
-                  )
-                }
-            });
-        // _sendTokenAndSecretToServer(session.token, session.secret);
-        break;
-      case TwitterLoginStatus.cancelledByUser:
-        // _s(howCancelMessage();
-        print("cancelled by user");
-        break;
-      case TwitterLoginStatus.error:
-        // _showErrorMessage(result.error);
-        print(result.errorMessage);
-        break;
-    }
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    _read().then((session) => {
-          if (session["loggedIn"])
-            {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PageHome(session),
-                ),
-              )
-            }
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,31 +21,74 @@ class _PageLoginState extends State<PageLogin> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(
-                EvaIcons.twitter,
-                size: 150,
-              ),
-              RawMaterialButton(
-                // onPressed: () => Navigator.pushReplacement(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => PageHome(),
-                //   ),
-                // ),
-
-                onPressed: () => _singinTwitter(),
-                elevation: 2.0,
-                fillColor: Colors.white,
-                child: Icon(
-                  Icons.arrow_forward,
-                  size: 55.0,
+              Text(
+                "Thought Book",
+                style: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  color: Colors.black,
+                  fontSize: 30,
                 ),
-                padding: EdgeInsets.all(15.0),
-                shape: CircleBorder(),
               ),
               SizedBox(
                 height: 50,
               ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FlatButton(
+                    onPressed: () {
+                      singinTwitter().then((value) {
+                        if (value != null) {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return PageHome();
+                          }));
+                        }
+                      });
+                    },
+                    child: Icon(
+                      EvaIcons.twitter,
+                      size: 100,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 35,
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      signInWithGoogle().then((value) {
+                        if (value != null) {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (context) {
+                            return PageHome();
+                          }));
+                        }
+                      });
+                    },
+                    child: Icon(
+                      EvaIcons.google,
+                      size: 100,
+                    ),
+                  ),
+                ],
+              ),
+
+              // RawMaterialButton(
+              //   onPressed: () => null,
+              //   elevation: 2.0,
+              //   fillColor: Colors.white,
+              //   child: Icon(
+              //     Icons.arrow_forward,
+              //     size: 55.0,
+              //   ),
+              //   padding: EdgeInsets.all(15.0),
+              //   shape: CircleBorder(),
+              // ),
+              SizedBox(
+                height: 5,
+              ),
+
               Padding(
                 padding: EdgeInsets.all(15),
                 child: FlatButton(
