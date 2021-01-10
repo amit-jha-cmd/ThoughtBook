@@ -9,6 +9,9 @@ final TwitterLogin twitterLogin = TwitterLogin(
   consumerSecret: 'cZBlewtbukn9zjx2KppFuMnJT7ucM8F14ggZEWaNFCwkXj9z54',
 );
 
+String name;
+String imageURL;
+
 Future<String> signInWithGoogle() async {
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
   final GoogleSignInAuthentication googleSignInAuthentication =
@@ -30,6 +33,13 @@ Future<String> signInWithGoogle() async {
     currentUser.then((value) {
       assert(user.uid == value.uid);
     });
+
+    assert(user.email != null);
+    assert(user.displayName != null);
+    assert(user.photoUrl != null);
+
+    name = user.displayName;
+    imageURL = user.photoUrl;
 
     print('singInWithGoogle succeeded: $user');
 
@@ -68,6 +78,12 @@ Future<String> singinTwitter() async {
         currentUser.then((value) {
           assert(user.uid == value.uid);
         });
+
+        assert(user.displayName != null);
+        assert(user.photoUrl != null);
+
+        name = user.displayName;
+        imageURL = user.photoUrl;
 
         print('singInWithTwitter succeeded: $user');
 

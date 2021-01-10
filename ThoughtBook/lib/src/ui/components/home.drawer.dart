@@ -1,4 +1,5 @@
 import 'package:ThoughtBook/src/model/session.dart';
+import 'package:ThoughtBook/src/ui/components/firebase.auth.dart';
 import 'package:ThoughtBook/src/ui/page/page.aboutme.dart';
 import 'package:ThoughtBook/src/ui/page/page.history.dart';
 import 'package:ThoughtBook/src/ui/page/page.login.dart';
@@ -19,14 +20,16 @@ class HomeDrawer extends StatelessWidget {
             decoration: BoxDecoration(
               color: Color.fromRGBO(1, 10, 30, 1),
             ),
-            accountName: Text(session.username.toString()),
+            accountName: Text(name),
             accountEmail: Text(""),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.orange,
-              child: Text(
-                session.username.toString()[0].toUpperCase(),
-                style: TextStyle(fontSize: 40.0),
-              ),
+              child: imageURL != null
+                  ? Text(
+                      session.username.toString()[0].toUpperCase(),
+                      style: TextStyle(fontSize: 40.0),
+                    )
+                  : NetworkImage(imageURL),
             ),
           ),
           ListTile(
