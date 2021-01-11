@@ -1,10 +1,10 @@
 import 'package:ThoughtBook/src/model/session.dart';
 import 'package:ThoughtBook/src/ui/components/firebase.auth.dart';
+import 'package:ThoughtBook/src/ui/components/persistent.data.dart';
 import 'package:ThoughtBook/src/ui/page/page.home.dart';
 import 'package:ThoughtBook/src/ui/page/page.intro.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PageLogin extends StatefulWidget {
   @override
@@ -12,6 +12,18 @@ class PageLogin extends StatefulWidget {
 }
 
 class _PageLoginState extends State<PageLogin> {
+  // @override
+  // void initState() {
+  //   read().then((value) {
+  //     if (value.loggedIn == true) {
+  //       Navigator.of(context)
+  //           .pushReplacement(MaterialPageRoute(builder: (context) {
+  //         return PageHome();
+  //       }));
+  //     }
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,10 +52,24 @@ class _PageLoginState extends State<PageLogin> {
                     onPressed: () {
                       singinTwitter().then((value) {
                         if (value != null) {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return PageHome();
-                          }));
+                          value.getIdToken().then((token) {
+                            save(
+                              true,
+                              token.token,
+                              value.photoUrl,
+                              value.displayName,
+                              token.signInProvider,
+                            ).then((value) {
+                              if (value == true) {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(builder: (context) {
+                                  return PageHome();
+                                }));
+                              } else {
+                                print("something went wrong");
+                              }
+                            });
+                          });
                         }
                       });
                     },
@@ -59,10 +85,24 @@ class _PageLoginState extends State<PageLogin> {
                     onPressed: () {
                       signInWithGoogle().then((value) {
                         if (value != null) {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context) {
-                            return PageHome();
-                          }));
+                          value.getIdToken().then((token) {
+                            save(
+                              true,
+                              token.token,
+                              value.displayName,
+                              value.photoUrl,
+                              token.signInProvider,
+                            ).then((value) {
+                              if (value == true) {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(builder: (context) {
+                                  return PageHome();
+                                }));
+                              } else {
+                                print("Trouble loggin in");
+                              }
+                            });
+                          });
                         }
                       });
                     },
@@ -111,57 +151,5 @@ class _PageLoginState extends State<PageLogin> {
         ),
       ),
     );
-  }
-
-  _read() async {
-    final prefs = await SharedPreferences.getInstance();
-    final loggedIn = 'loggedIn';
-    final token = 'token';
-    final key = 'key';
-    final username = 'username';
-    final userId = 'userId';
-
-    final loggedInValue = prefs.getBool(loggedIn) ?? false;
-    final tokenValue = prefs.getString(token) ?? "";
-    final keyValue = prefs.getString(key) ?? "";
-    final usernameValue = prefs.getString(username) ?? "";
-    final userIdValue = prefs.getString(userId) ?? "";
-
-    final session = {
-      loggedIn: loggedInValue,
-      token: tokenValue,
-      key: keyValue,
-      username: usernameValue,
-      userId: userIdValue
-    };
-
-    // print('read: $session');
-    return session;
-  }
-
-  _save(bool loggedInValue, String tokenValue, String keyValue,
-      String usernameValue, String userIdValue) async {
-    final prefs = await SharedPreferences.getInstance();
-    final loggedIn = 'loggedIn';
-    final token = 'token';
-    final key = 'key';
-    final username = 'username';
-    final userId = 'userId';
-
-    prefs.setBool(loggedIn, loggedInValue);
-    prefs.setString(token, tokenValue);
-    prefs.setString(key, keyValue);
-    prefs.setString(username, usernameValue);
-    prefs.setString(userId, userIdValue);
-
-    _read().then(
-      (session) => {
-        print(
-          session,
-        ),
-      },
-    );
-
-    return true;
   }
 }

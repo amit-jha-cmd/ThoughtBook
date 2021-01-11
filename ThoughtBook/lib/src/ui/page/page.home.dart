@@ -4,6 +4,7 @@ import 'package:ThoughtBook/src/ui/components/home.goProModal.dart';
 import 'package:ThoughtBook/src/ui/components/home.publish.dart';
 import 'package:ThoughtBook/src/ui/page/page.settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PageHome extends StatefulWidget {

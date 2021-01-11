@@ -12,7 +12,7 @@ final TwitterLogin twitterLogin = TwitterLogin(
 String name;
 String imageURL;
 
-Future<String> signInWithGoogle() async {
+Future<FirebaseUser> signInWithGoogle() async {
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
   final GoogleSignInAuthentication googleSignInAuthentication =
       await googleSignInAccount.authentication;
@@ -43,7 +43,7 @@ Future<String> signInWithGoogle() async {
 
     print('singInWithGoogle succeeded: $user');
 
-    return '$user';
+    return user;
   }
 
   return null;
@@ -55,7 +55,7 @@ Future<void> signOutGoogle() async {
   print("User Signed Out");
 }
 
-Future<String> singinTwitter() async {
+Future<FirebaseUser> singinTwitter() async {
   final TwitterLoginResult result = await twitterLogin.authorize();
 
   switch (result.status) {
@@ -87,7 +87,7 @@ Future<String> singinTwitter() async {
 
         print('singInWithTwitter succeeded: $user');
 
-        return '$user';
+        return user;
       }
 
       return null;
