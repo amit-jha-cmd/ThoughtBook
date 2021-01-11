@@ -1,10 +1,11 @@
 import 'dart:async';
-import 'tweetPostProvider.dart';
-import '../model/twitterPostModel.dart';
+import 'data.api.provider.dart';
+import '../model/data.model.dart';
 
 class Repository {
-  final tweetPostProviderApi = TweetPostProvider();
+  final apiProvider = DataApiProvider();
 
-  Future<Record> postTweet(String _tweet) =>
-      tweetPostProviderApi.postTweet(_tweet);
+  Future<DataModel> fetchHistory(date) => apiProvider.fetchHistory(date);
+  Future<DataModel> fetchToday() => apiProvider.fetchTodaysEntries();
+  Future<bool> publishEntry(data) => apiProvider.publishEntry(data);
 }

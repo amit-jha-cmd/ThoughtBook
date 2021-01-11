@@ -1,16 +1,25 @@
-import 'package:ThoughtBook/src/bloc/tweetPostBloc.dart';
-import 'package:ThoughtBook/src/ui/components/home.smAd.dart';
+import 'package:ThoughtBook/src/bloc/api.bloc.dart';
 import 'package:flutter/material.dart';
 
 class Publish extends StatelessWidget {
   final controller = TextEditingController();
-
+  final stamp = DateTime.now();
   @override
   Widget build(BuildContext context) {
     void clearTextField() {
-      FocusScope.of(context).requestFocus(new FocusNode());
-      bloc.PostTweet(controller.text);
-      controller.clear();
+      bloc.postTodayEntry(
+        {
+          'entry': controller.value,
+          'timestamp': stamp,
+        },
+      ).then((value) {
+        if (value == true) {
+          FocusScope.of(context).requestFocus(new FocusNode());
+          controller.clear();
+        } else {
+          print("Text not published");
+        }
+      });
     }
 
     return Container(

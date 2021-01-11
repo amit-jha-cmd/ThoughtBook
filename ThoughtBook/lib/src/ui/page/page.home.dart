@@ -1,10 +1,11 @@
+import 'package:ThoughtBook/src/bloc/api.bloc.dart';
+import 'package:ThoughtBook/src/model/data.model.dart';
 import 'package:ThoughtBook/src/ui/components/home.drawer.dart';
 import 'package:ThoughtBook/src/ui/components/home.entryCard.dart';
 import 'package:ThoughtBook/src/ui/components/home.goProModal.dart';
 import 'package:ThoughtBook/src/ui/components/home.publish.dart';
 import 'package:ThoughtBook/src/ui/page/page.settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PageHome extends StatefulWidget {
@@ -22,6 +23,7 @@ class _PageHomeState extends State<PageHome> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
+    bloc.fetchTodaysEntry();
     return Scaffold(
       drawer: HomeDrawer(),
       backgroundColor: Color.fromRGBO(155, 167, 193, 1),
@@ -96,37 +98,30 @@ class _PageHomeState extends State<PageHome> {
               child: Container(
                 padding: EdgeInsets.all(15),
                 child: StreamBuilder(
-                  stream: metadata
-                      .where("username", isEqualTo: "amit_jha6700")
-                      .snapshots(),
+                  stream: bloc.getTodaysEntry,
                   builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                      AsyncSnapshot<DataModel> snapshot) {
                     if (!snapshot.hasData) {
-                      return CircularProgressIndicator();
+                      return Center(
+                        child: Text("No entries today"),
+                      );
                     } else if (snapshot.hasError) {
                       return Center(
                         child: Text("Something went wrong"),
                       );
+                    } else if (snapshot.hasData) {
+                      return ListView.builder(
+                        itemBuilder: (BuildContext context, int index) {
+                          return EntryCard(
+                            (snapshot.data.data[index].timestamp as Timestamp)
+                                .toDate(),
+                            snapshot.data.data[index].entry,
+                          );
+                        },
+                      );
                     }
 
-                    return ListView(
-                      children: snapshot.data.documents.map((document) {
-                        for (dynamic entry in document.data['data']) {
-                          print(entry);
-                          DateTime stamp =
-                              (entry['timestamp'] as Timestamp).toDate();
-                          DateTime now = new DateTime.now();
-                          print(entry['entry']);
-                          if (stamp.day == now.day &&
-                              stamp.month == now.month &&
-                              stamp.year == now.year) {
-                            // print(entry['entry']);
-                            return EntryCard(stamp, entry['entry']);
-                          }
-                        }
-                        return Container();
-                      }).toList(),
-                    );
+                    return CircularProgressIndicator();
                   },
                 ),
               ),

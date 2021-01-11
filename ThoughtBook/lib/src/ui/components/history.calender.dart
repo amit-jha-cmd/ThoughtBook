@@ -1,16 +1,23 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart';
 
 class HistoryCalender extends StatefulWidget {
+  HistoryCalender({@required this.onChange, @required this.currentDate2});
+
+  final onChange;
+  final DateTime currentDate2;
+
   @override
   _HistoryCalenderState createState() => _HistoryCalenderState();
 }
 
 class _HistoryCalenderState extends State<HistoryCalender> {
   DateTime _currentDate = DateTime.now();
-  DateTime _currentDate2 = DateTime.now();
+  // DateTime _currentDate2 = DateTime.now();
   String _currentMonth = new DateFormat.yMMM().format(DateTime.now());
   DateTime _targetDateTime = DateTime.now();
 //  List<DateTime> _markedDate = [DateTime(2018, 9, 20), DateTime(2018, 10, 11)];
@@ -43,7 +50,7 @@ class _HistoryCalenderState extends State<HistoryCalender> {
     _calendarCarouselNoHeader = CalendarCarousel<Event>(
       todayBorderColor: Color.fromRGBO(1, 6, 19, 1),
       onDayPressed: (DateTime date, List<Event> events) {
-        this.setState(() => _currentDate2 = date);
+        widget.onChange(date);
         events.forEach((event) => print(event.title));
       },
       daysHaveCircularBorder: true,
@@ -57,7 +64,7 @@ class _HistoryCalenderState extends State<HistoryCalender> {
 //      firstDayOfWeek: 4,
       markedDatesMap: _markedDateMap,
       height: 300.0,
-      selectedDateTime: _currentDate2,
+      selectedDateTime: widget.currentDate2,
       targetDateTime: _targetDateTime,
       customGridViewPhysics: NeverScrollableScrollPhysics(),
       markedDateCustomShapeBorder:

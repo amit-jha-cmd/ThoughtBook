@@ -1,4 +1,3 @@
-import 'package:ThoughtBook/src/model/session.dart';
 import 'package:ThoughtBook/src/ui/components/firebase.auth.dart';
 import 'package:ThoughtBook/src/ui/components/persistent.data.dart';
 import 'package:ThoughtBook/src/ui/page/page.home.dart';
