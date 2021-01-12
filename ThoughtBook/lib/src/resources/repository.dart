@@ -5,7 +5,9 @@ import '../model/data.model.dart';
 class Repository {
   final apiProvider = DataApiProvider();
 
-  Future<DataModel> fetchHistory(date) => apiProvider.fetchHistory(date);
-  Future<DataModel> fetchToday() => apiProvider.fetchTodaysEntries();
+  Future<DataModel> fetchHistory(date, username, platform) =>
+      apiProvider.fetchHistory(date, username, platform);
+  Future<DataModel> fetchToday(username, platform) =>
+      apiProvider.fetchTodaysEntries(username, platform);
   Future<bool> publishEntry(data) => apiProvider.publishEntry(data);
 }

@@ -11,13 +11,15 @@ class ApiBloc {
   Observable<DataModel> get getHistory => _historyFetcher.stream;
   Observable<DataModel> get getTodaysEntry => _entrysToday.stream;
 
-  fetchHistory(DateTime timestamp) async {
-    DataModel entryModel = await _repository.fetchHistory(timestamp);
+  fetchHistory(DateTime timestamp, String username, String platform) async {
+    DataModel entryModel =
+        await _repository.fetchHistory(timestamp, username, platform);
     _historyFetcher.sink.add(entryModel);
   }
 
-  fetchTodaysEntry() async {
-    DataModel todaysEntryModel = await _repository.fetchToday();
+  fetchTodaysEntry(String username, String platform) async {
+    DataModel todaysEntryModel =
+        await _repository.fetchToday(username, platform);
     _entrysToday.sink.add(todaysEntryModel);
   }
 

@@ -2,6 +2,7 @@ import 'package:ThoughtBook/src/bloc/api.bloc.dart';
 import 'package:ThoughtBook/src/model/data.model.dart';
 import 'package:ThoughtBook/src/ui/components/history.calender.dart';
 import 'package:ThoughtBook/src/ui/components/home.entryCard.dart';
+import 'package:ThoughtBook/src/ui/components/persistent.data.dart';
 import 'package:flutter/material.dart';
 
 class PageHistory extends StatefulWidget {
@@ -19,7 +20,13 @@ class _PageHistoryState extends State<PageHistory> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    bloc.fetchHistory(selectedDate);
+    read().then((value) {
+      bloc.fetchHistory(
+        selectedDate,
+        value['username'],
+        value['provider'].split(".")[0],
+      );
+    });
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -57,7 +64,13 @@ class _PageHistoryState extends State<PageHistory> {
             ),
             Center(
               child: RaisedButton(
-                onPressed: () => bloc.fetchHistory(this.selectedDate),
+                onPressed: () => read().then((value) {
+                  bloc.fetchHistory(
+                    selectedDate,
+                    value['username'],
+                    value['provider'].split(".")[0],
+                  );
+                }),
                 child: Text("View"),
               ),
             ),

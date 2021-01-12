@@ -58,7 +58,14 @@ class HomeDrawer extends StatelessWidget {
                 leading: Icon(Icons.logout),
                 title: Text("Log Out"),
                 onTap: () {
-                  save(false, "", "", "", "");
+                  save(
+                    false,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                  );
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

@@ -58,6 +58,7 @@ class _PageLoginState extends State<PageLogin> {
                               value.photoUrl,
                               value.displayName,
                               token.signInProvider,
+                              value.uid,
                             ).then((value) {
                               if (value == true) {
                                 Navigator.of(context).pushReplacement(
@@ -91,6 +92,7 @@ class _PageLoginState extends State<PageLogin> {
                               value.displayName,
                               value.photoUrl,
                               token.signInProvider,
+                              value.uid,
                             ).then((value) {
                               if (value == true) {
                                 Navigator.of(context).pushReplacement(

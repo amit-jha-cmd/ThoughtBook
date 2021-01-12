@@ -4,6 +4,7 @@ import 'package:ThoughtBook/src/ui/components/home.drawer.dart';
 import 'package:ThoughtBook/src/ui/components/home.entryCard.dart';
 import 'package:ThoughtBook/src/ui/components/home.goProModal.dart';
 import 'package:ThoughtBook/src/ui/components/home.publish.dart';
+import 'package:ThoughtBook/src/ui/components/persistent.data.dart';
 import 'package:ThoughtBook/src/ui/page/page.settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,13 @@ class _PageHomeState extends State<PageHome> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    bloc.fetchTodaysEntry();
+    read().then((value) {
+      print(value['name']);
+      bloc.fetchTodaysEntry(
+        value['username'],
+        value['provider'].split(".")[0],
+      );
+    });
     return Scaffold(
       drawer: HomeDrawer(),
       backgroundColor: Color.fromRGBO(155, 167, 193, 1),

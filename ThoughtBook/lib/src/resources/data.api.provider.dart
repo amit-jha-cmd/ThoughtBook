@@ -4,17 +4,17 @@ import 'package:http/http.dart' show Client;
 import 'dart:convert';
 import '../model/data.model.dart';
 
-final String url = "https://dae784d9effe.ngrok.io";
+final String url = "https://4baf5a48d0de.ngrok.io";
 
 class DataApiProvider {
   Client clinet = Client();
 
-  Future<DataModel> fetchHistory(date) async {
+  Future<DataModel> fetchHistory(date, username, platform) async {
     read().then((value) async {
       final token = value['token'];
 
       final response = await clinet.get(
-        "$url/history?datetime=$date",
+        "$url/history?username=$username&platform=$platform&datetime=$date",
         headers: {'authtoken': token},
       );
 
@@ -26,12 +26,12 @@ class DataApiProvider {
     });
   }
 
-  Future<DataModel> fetchTodaysEntries() async {
+  Future<DataModel> fetchTodaysEntries(username, platform) async {
     read().then((value) async {
       final token = value['token'];
 
       final response = await clinet.get(
-        "$url/todaysentry",
+        "$url/todaysentry?username=$username&platform=$platform",
         headers: {'authtoken': token},
       );
 
